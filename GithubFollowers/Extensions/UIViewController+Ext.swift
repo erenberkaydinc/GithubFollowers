@@ -5,8 +5,9 @@
 //  Created by Eren Berkay Dinç on 25.10.2023.
 //
 
-import Foundation
 import UIKit
+import SafariServices
+
 extension UIViewController {
 
     // To present a customized Alert on the main thread
@@ -23,4 +24,10 @@ extension UIViewController {
             self.present(alertVC, animated: true)
         }
     }
+    func presentSafariVC(with url: URL) {
+        let safariVC = SFSafariViewController(url: url)
+        safariVC.preferredControlTintColor = .systemGreen
+        present(safariVC, animated: true)
+    }
+
 }
