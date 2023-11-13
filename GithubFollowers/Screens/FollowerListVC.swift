@@ -177,7 +177,7 @@ extension FollowerListVC: UICollectionViewDelegate {
         present(navController, animated: true)
     }
 }
-
+ 
 extension FollowerListVC : UISearchResultsUpdating, UISearchBarDelegate, UITextFieldDelegate {
 
     func updateSearchResults(for searchController: UISearchController) {
