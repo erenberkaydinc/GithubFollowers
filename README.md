@@ -15,8 +15,6 @@ The project was developed while undertaking [Sean Allen's iOS Dev Job Interview 
 - Project Organization
 - GitHub API | JSON Parsing
 
-## Screenshots
-![Screenshots from app shown on iPhone](https://i.ibb.co/0QMWxZx/Ads-z-tasar-m.png)
-
-
-
+## Screenshots & Gif
+![iPhone 15 Screenshot](https://github.com/erenberkaydinc/GithubFollowers/blob/master/ghfollowers.png?raw=true)
+![](https://github.com/erenberkaydinc/GithubFollowers/blob/master/app.gif?raw=true)
