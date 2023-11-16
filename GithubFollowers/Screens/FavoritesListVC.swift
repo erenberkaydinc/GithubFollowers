@@ -37,6 +37,7 @@ class FavoritesListVC: GFDataLoadingVC {
         tableView.rowHeight = 80
         tableView.delegate = self
         tableView.dataSource = self
+        tableView.removeExcessCells()
 
         tableView.register(FavoriteCell.self, forCellReuseIdentifier: "FavoriteCell")
     }
@@ -82,12 +83,11 @@ extension FavoritesListVC: UITableViewDataSource, UITableViewDelegate {
     }
 
     func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
+        
         guard editingStyle == .delete else { return }
-
             self.showLoadingView()
-            let favorite = favorites[indexPath.row]
 
-            PersistenceManager.updateWith(favorite: favorite, actionType: .remove) { [weak self] error in
+            PersistenceManager.updateWith(favorite: favorites[indexPath.row], actionType: .remove) { [weak self] error in
                 guard let self = self else { return }
                 self.dismissLoadingView()
                 guard let error = error else {
@@ -100,8 +100,6 @@ extension FavoritesListVC: UITableViewDataSource, UITableViewDelegate {
                 self.presentGFAlertOnMainThread(title: "Something went wrong", message: error.rawValue, buttonTitle: "Ok")
             }
         }
-
-
 }
 
 #Preview {

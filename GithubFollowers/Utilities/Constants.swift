@@ -8,11 +8,11 @@
 import UIKit
 
 enum SFSymbols {
-    static let location = UIImage(named :"mappin.and.ellipse")
-    static let repos = UIImage(named :"folder")
-    static let gists = UIImage(named :"text.alignleft")
-    static let followers = UIImage(named :"heart")
-    static let following = UIImage(named :"person.2")
+    static let location = UIImage(systemName: "mappin.and.ellipse")
+    static let repos = UIImage(systemName :"folder")
+    static let gists = UIImage(systemName :"text.alignleft")
+    static let followers = UIImage(systemName :"heart")
+    static let following = UIImage(systemName :"person.2")
 }
 
 enum Images {

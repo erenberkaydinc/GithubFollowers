@@ -7,10 +7,6 @@
 
 import UIKit
 
-protocol FollowerListVCDelegate: class {
-    func didRequestFollowers(for username: String)
-}
-
 class FollowerListVC: GFDataLoadingVC {
     enum Section {
         case main
@@ -20,6 +16,7 @@ class FollowerListVC: GFDataLoadingVC {
     var followers: [Follower] = []
     var filteredFollowers: [Follower] = []
     var isSearching: Bool = false
+    var isLoadingMoreFollowers = false
     var page: Int = 1
     var hasMoreFollowers: Bool = true
 
@@ -81,6 +78,7 @@ class FollowerListVC: GFDataLoadingVC {
 
     func getFollowers(username: String, page: Int) {
         showLoadingView()
+        isLoadingMoreFollowers = true
         NetworkManager.shared.getFollowers(for: username, page: page) { [weak self] result in
             // we have strong reference in self, to make it weak we use [weak self]
             // that's why we use weak self to make it weak , it removes memory leak
@@ -103,6 +101,8 @@ class FollowerListVC: GFDataLoadingVC {
                 self.presentGFAlertOnMainThread(title: "Bad stuff happened", message: error.rawValue, buttonTitle: "Ok")
             }
         }
+
+        self.isLoadingMoreFollowers = false
     }
 
     func configureDataSource() {
@@ -158,7 +158,7 @@ extension FollowerListVC: UICollectionViewDelegate {
         let height = scrollView.frame.size.height
         
         if offsetY > contentHeight - height {
-            guard hasMoreFollowers else { return }
+            guard hasMoreFollowers,!isLoadingMoreFollowers else { return }
             page += 1
             // if scrolled height on screen > whole scrollview height
             // get new followers
@@ -213,7 +213,7 @@ extension FollowerListVC : UISearchResultsUpdating, UISearchBarDelegate, UITextF
     }
 }
 
-extension FollowerListVC: FollowerListVCDelegate {
+extension FollowerListVC: UserInfoVCDelegate {
     
     func didRequestFollowers(for username: String) {
         self.username = username
@@ -223,7 +223,7 @@ extension FollowerListVC: FollowerListVCDelegate {
         filteredFollowers.removeAll()
 
         // Scroll back to the top
-        collectionView.setContentOffset(.zero, animated: true)
+        collectionView.scrollToItem(at: IndexPath(item: 0,section: 0), at: .top, animated: true)
         getFollowers(username: username, page: page)
     }
 

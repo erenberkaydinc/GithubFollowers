@@ -1,5 +1,5 @@
 //
-//  EmptyStateView.swift
+//  GFEmptyStateView.swift
 //  GithubFollowers
 //
 //  Created by Eren Berkay Dinç on 28.10.2023.
@@ -27,13 +27,12 @@ class GFEmptyStateView: UIView {
     }
 
     private func configure() {
+        addSubViews(messageLabel,logoImageView)
         configureMessageLabel()
         configureLogoImageView()
     }
 
     private func configureMessageLabel() {
-        addSubview(messageLabel)
-
         messageLabel.numberOfLines = 3
         messageLabel.textColor = .secondaryLabel
 
@@ -50,8 +49,6 @@ class GFEmptyStateView: UIView {
     }
 
     private func configureLogoImageView() {
-        addSubview(logoImageView)
-
         logoImageView.image = Images.emptyLogo
         logoImageView.translatesAutoresizingMaskIntoConstraints = false
         
