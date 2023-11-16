@@ -119,8 +119,8 @@
 			isa = PBXGroup;
 			children = (
 				63718AB02AE97C340059BE10 /* Utilities */,
-				63D93AA12AE9360C0027C618 /* Extensions */,
 				63718AAD2AE9710B0059BE10 /* Managers */,
+				63D93AA12AE9360C0027C618 /* Extensions */,
 				63FA73D92AE9572600D1E65E /* Model */,
 				63D93AA72AE938830027C618 /* Screens */,
 				63D93AA22AE937D60027C618 /* UI */,
@@ -161,8 +161,8 @@
 		63718AB02AE97C340059BE10 /* Utilities */ = {
 			isa = PBXGroup;
 			children = (
-				63718AB12AE97C440059BE10 /* GFError.swift */,
 				6350C42B2AEA915500AB7201 /* UIHelper.swift */,
+				63718AB12AE97C440059BE10 /* GFError.swift */,
 				63FB79CD2AED9425007A56D2 /* Constants.swift */,
 			);
 			path = Utilities;

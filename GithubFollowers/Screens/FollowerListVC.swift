@@ -83,26 +83,30 @@ class FollowerListVC: GFDataLoadingVC {
             // we have strong reference in self, to make it weak we use [weak self]
             // that's why we use weak self to make it weak , it removes memory leak
             guard let self = self else { return }
-
             self.dismissLoadingView()
+
             switch result {
             case .success(let followers):
-                if followers.count < 100 { self.hasMoreFollowers = false }
-                self.followers.append(contentsOf: followers)
-
-                if self.followers.isEmpty {
-                    let message = "This user doesn't have any followers. go follow them 😄."
-                    DispatchQueue.main.async {
-                        self.showEmptyStateView(with: message, in: self.view)
-                    }
-                }
-                self.updateData(on: self.followers)
+                updateUI(with: followers)
             case .failure(let error):
                 self.presentGFAlertOnMainThread(title: "Bad stuff happened", message: error.rawValue, buttonTitle: "Ok")
             }
         }
 
         self.isLoadingMoreFollowers = false
+    }
+
+    private func updateUI(with followers:[Follower]) {
+        if followers.count < 100 { self.hasMoreFollowers = false }
+        self.followers.append(contentsOf: followers)
+
+        if self.followers.isEmpty {
+            let message = "This user doesn't have any followers. go follow them 😄."
+            DispatchQueue.main.async {
+                self.showEmptyStateView(with: message, in: self.view)
+            }
+        }
+        self.updateData(on: self.followers)
     }
 
     func configureDataSource() {
@@ -130,20 +134,25 @@ class FollowerListVC: GFDataLoadingVC {
 
             switch result {
             case .success(let user): 
-                let favorite = Follower(login: user.login, avatarUrl: user.avatarUrl)
-                PersistenceManager.updateWith(favorite: favorite, actionType: .add) { [weak self] error in
-                    guard let self = self else { return }
-                    guard let error = error else {
-                        self.presentGFAlertOnMainThread(title: "Success", message: "You have successfully favorited the user! 😄", buttonTitle: "Perfect!")
-                        return
-                    }
+                self.addUserToFavorites(user: user)
 
-                    self.presentGFAlertOnMainThread(title: "Something went wrong", message: error.rawValue, buttonTitle: "Ok")
-                }
             case .failure(let error ):
                 self.presentGFAlertOnMainThread(title: "Somethingw went wrong", message: error.rawValue, buttonTitle: "Ok")
-
             }
+        }
+
+    }
+    private func addUserToFavorites(user: User) {
+        let favorite = Follower(login: user.login, avatarUrl: user.avatarUrl)
+
+        PersistenceManager.updateWith(favorite: favorite, actionType: .add) { [weak self] error in
+            guard let self = self else { return }
+            guard let error = error else {
+                self.presentGFAlertOnMainThread(title: "Success", message: "You have successfully favorited the user! 😄", buttonTitle: "Perfect!")
+                return
+            }
+
+            self.presentGFAlertOnMainThread(title: "Something went wrong", message: error.rawValue, buttonTitle: "Ok")
         }
     }
 }
